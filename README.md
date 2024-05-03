@@ -6,7 +6,7 @@ This repository contains the implementation of an AI-driven (Open AI GPT) code s
 
 The project is designed to meet the following key requirements:
 
-- Generate code snippets in Python, Javascript, and Ruby. It also has other programming language support if needed.
+- Generate code snippets in Python and Javascript. It also has other programming language support if needed.
 - Supports feedback and improvement of generated code snippets.
 - Provide functionality for generating and improving test cases.
 - Enable running tests and improving code based on test results.
@@ -44,3 +44,5 @@ Once the application is running, follow these steps to use it:
 ## Notes
 1. The ./start-docker-server.sh file is slightly modified from the original and contains an extra line of code to source variables from .env file. In case of any errors please check and/or comment this.
 2. The .env.example file containes the existing environmental variables used, so please create a copy and rename it and add the respective values.
+
+I have tried my best to stay true to the original functionality, requirements and design while making some changes and improvements. I have also tried my best to handle most edge cases, but maybe due to time constraints might be missing some niche edge cases/functionalities.
