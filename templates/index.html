@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Metadata -->
+	<meta name="generator" content="HTML Tidy for HTML5 for Linux version 5.6.0">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<!-- Title -->
+	<title>Code Snippet Generator</title>
+	
+	<!-- External Stylesheet -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css">
+</head>
+<body>
+	<div class="flex">
+		<!-- Left Column for Snippets List Functionality-->
+		<div class="w-1/4 p-4 bg-gray-200">
+			<!-- Snippets List Creation and Navigation -->
+			<h2 class="font-bold mb-4">Snippets List</h2>
+			<!-- Button to create new snippet -->
+			<form id="addSnippetForm" action="/add_snippet" method="post" name="addSnippetForm">
+				<button type="submit" class="mb-2 bg-blue-500 text-white px-4 py-2 rounded">Create New Snippet</button>
+			</form>
+			<!-- Back button to navigate back to main page -->
+			<form action="/" method="get">
+				<button type="submit" class="mb-4 bg-blue-500 text-white px-4 py-2 rounded">Back/Home</button>
+			</form>
+			<ul>
+				<!-- Loop through snippets -->
+				{% for snippet in snippets %}
+				<li class="flex justify-between mb-4">
+					<form action="/view_snippet" method="post">
+						<input type="hidden" name="snippet_id" value="{{ snippet[0] }}">
+						<!-- Disable/Enable buttons based on selection -->
+						{% if snippet_selected %}
+						<button type="submit" class="w-full block p-2 bg-gray-500 rounded text-white" disabled>{{ snippet[1] }} {{ snippet[4] }} {{ snippet[5] }}</button>
+						{% else %}
+						<button type="submit" class="w-full block p-2 bg-blue-500 rounded text-white">{{ snippet[1] }} {{ snippet[4] }} {{ snippet[5] }}</button>
+						{% endif %}
+					</form>
+					<!-- Delete button -->
+					<form action="/delete_snippet" method="post">
+						<input type="hidden" name="snippet_id" value="{{ snippet[0] }}">
+						{% if not snippet_selected %}
+						<button type="submit" class="bg-red-500 text-white px-2 py-1 rounded">Delete</button>
+						{% endif %}
+					</form>
+				</li>
+				{% endfor %}
+			</ul>
+		</div>
+		<!-- Right Column for Editor and Controls Functionality -->
+		<div class="w-3/4 p-4">
+			<!-- Main Title -->
+			<h1 class="text-xl font-bold mb-4">Code Snippet Generator</h1>
+			<!-- Template 1: Code Generation Functionality -->
+			{% if snippet_selected %}
+			<form action="/generate_code" method="post">
+				<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+				<textarea name="code_generation" placeholder="Describe your code snippet here..." class="w-full p-2 border border-gray-300 rounded mb-4" rows="3" required=""></textarea>
+				<button class="w-full bg-green-500 text-white px-4 py-2 rounded mb-4">Generate Code</button>
+			</form>
+			<!-- Code Snippet Display Based on Respective Button Press and Response -->
+			<pre id="generatedCode"><code class="{{ snippets[0][4] }}">{% if generated_code %}{{ snippets[0][2] }}
+				{% elif improved_code %}{{ snippets[0][2] }}
+				{% elif regenerated_code %}{{ snippets[0][2] }}
+				{% endif %}
+			</code></pre>
+			<!-- Template 2: Code Improvement Functionality -->
+			<form action="/improve_code" method="post">
+				<div class="flex justify-between mb-4">
+					<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+					<input type="text" name="code_feedback" placeholder="Provide feedback for regenerating code..." class="flex-grow mr-2 p-2 border border-gray-300 rounded" required="">
+					<button class="bg-blue-500 text-white px-4 py-2 rounded">Improve Code</button>
+				</div>
+			</form>
+			<!-- Template 3: Test Case Generation Functionality -->
+			<form action="/generate_test_cases" method="post">
+				<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+				{% if code_value %}
+				<button class="w-full bg-purple-500 text-white px-4 py-2 rounded mb-4">Generate Test Cases</button>
+				{% else %}
+				<button class="w-full bg-gray-500 text-white px-4 py-2 rounded mb-4" disabled>Generate Test Cases</button>
+				{% endif %}
+			</form>
+			<!-- Test Cases Display Based on Respective Button Press and Response -->
+			<pre id="generatedTests"><code class="{{ snippets[0][4] }}">{% if generated_tests %}{{ snippets[0][3] }}
+				{% elif improved_tests %}{{ snippets[0][2] }}
+				{% endif %}
+			</code></pre>
+			<!-- Template 4: Test Case Improvement Functionality -->
+			<form action="/improve_test_cases" method="post">
+				<div class="flex justify-between mb-4">
+					<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+					<input type="text" name="tests_feedback" placeholder="Provide feedback for regenerating test cases..." class="flex-grow mr-2 p-2 border border-gray-300 rounded" required="">
+					<button class="bg-blue-500 text-white px-4 py-2 rounded">Improve Tests</button>
+				</div>
+			</form>
+			<!-- Template 5: Test Case Execution Functionality -->
+			<form action="/run_test_code" method="post">
+				<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+				{% if code_value and tests_value %}
+				<button class="w-full bg-teal-500 text-white px-4 py-2 rounded mb-4">Run Test Code</button>
+				{% else %}
+				<button class="w-full bg-gray-500 text-white px-4 py-2 rounded mb-4" disabled>Run Test Code</button>
+				{% endif %}
+			</form>
+			<!-- Code Execution Status -->
+			{% if code_executed_successfully is defined %}
+			{% if code_executed_successfully %}
+			<div class="bg-green-300 p-4 rounded mb-4">
+				Code Executed Successfully
+			</div>
+			<!-- Template 6: Code Regeneration Functionality Based on Execution Status -->
+			<form action="/regenerate_code" method="post">
+				<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+				<button class="w-full px-4 py-2 rounded mb-4 bg-gray-500 text-white" disabled>Regenerate (Enabled when failed; Send failed feedback to Regenerate)</button>
+			</form>
+			{% else %}
+			<div class="bg-red-300 p-4 rounded mb-4">
+				Code Execution Failed
+			</div>
+			<form action="/regenerate_code" method="post">
+				<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+				<button class="w-full px-4 py-2 rounded mb-4 bg-blue-500 text-white">Regenerate (Enabled when failed; Send failed feedback to Regenerate)</button>
+			</form>
+			{% endif %}
+			{% else %}
+			<form action="/regenerate_code" method="post">
+				<input type="hidden" name="snippet_id" value="{{ snippets[0][0] }}">
+				<button class="w-full px-4 py-2 rounded mb-4 bg-gray-500 text-white" disabled>Regenerate (Enabled when failed; Send failed feedback to Regenerate)</button>
+			</form>
+			{% endif %}
+			{% endif %}
+		</div>
+	</div>
+	
+	<!-- Include Tailwind CSS -->
+	<script src="https://cdn.tailwindcss.com"></script>
+	<!-- Include Highlight.js Library -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+	<!-- Initialize Highlight.js -->
+	<script>
+		hljs.highlightAll();
+	</script>
+</body>
+</html>
