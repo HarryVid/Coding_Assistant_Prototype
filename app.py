@@ -136,7 +136,7 @@ async def generate_code(
 ):
 
 	response = client.chat.completions.create(
-		model="gpt-4-turbo",
+		model="gpt-4o",
 		response_format={"type": "json_object"},
 		messages=[
 			{
@@ -200,7 +200,7 @@ async def improve_code(
 	code = cursor.fetchone()
 
 	response = client.chat.completions.create(
-		model="gpt-4-turbo",
+		model="gpt-4o",
 		response_format={"type": "json_object"},
 		messages=[
 			{
@@ -260,7 +260,7 @@ async def generate_test_cases(request: Request, snippet_id: str = Form(...)):
 	code = cursor.fetchone()
 
 	response = client.chat.completions.create(
-		model="gpt-4-turbo",
+		model="gpt-4o",
 		response_format={"type": "json_object"},
 		messages=[
 			{
@@ -334,7 +334,7 @@ async def improve_test_cases(
 	code = cursor.fetchone()
 
 	response = client.chat.completions.create(
-		model="gpt-4-turbo",
+		model="gpt-4o",
 		response_format={"type": "json_object"},
 		messages=[
 			{
@@ -405,7 +405,7 @@ async def run_test_code(request: Request, snippet_id: str = Form(...)):
 	code = cursor.fetchone()
 
 	response = client.chat.completions.create(
-		model="gpt-4-turbo",
+		model="gpt-4o",
 		response_format={"type": "json_object"},
 		messages=[
 			{
@@ -469,7 +469,7 @@ async def regenerate_code(request: Request, snippet_id: str = Form(...)):
 	code = cursor.fetchone()
 
 	response = client.chat.completions.create(
-		model="gpt-4-turbo",
+		model="gpt-4o",
 		response_format={"type": "json_object"},
 		messages=[
 			{
