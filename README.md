@@ -1,6 +1,6 @@
-# Autify AI Engineer Assignment: Code Snippet Generation
+# Coding & Testing Assistant!
 
-This repository contains the implementation of an AI-driven (Open AI GPT) code snippet generation application, as part of the Autify AI Engineer Assignment. The application aims to generate code snippets in multiple programming and communication languages based on user input and feedback. The application also supports test case generation and verification based on code and user feedback.
+This repository contains the implementation of an AI-driven (Open AI GPT) code snippet generation application. The application aims to generate code snippets in multiple programming and communication languages based on user input and feedback. The application also supports test case generation and verification based on code and user feedback.
 
 ## Project Overview
 
@@ -44,5 +44,3 @@ Once the application is running, follow these steps to use it:
 ## Notes
 1. The ./start-docker-server.sh file is slightly modified from the original and contains an extra line of code to source variables from .env file. In case of any errors please check and/or comment this.
 2. The .env.example file containes the existing environmental variables used, so please create a copy and rename it and add the respective values.
-
-I have tried my best to stay true to the original functionality, requirements and design while making some changes and improvements. I have also tried my best to handle most edge cases, but maybe due to time constraints might be missing some niche edge cases/functionalities.
