@@ -2,6 +2,8 @@
 
 This repository contains the implementation of an AI-driven (Open AI GPT) code snippet generation application. The application aims to generate code snippets in multiple programming and communication languages based on user input and feedback. The application also supports test case generation and verification based on code and user feedback.
 
+![Alt text](design.jpeg)
+
 ## Project Overview
 
 The project is designed to meet the following key requirements:
